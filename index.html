@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+<title>叶鸿翔 Ye Hong Xiang · Resume</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Noto+Sans+SC:wght@400;500;700;900&family=Syne:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --c-text:#16181D;
+  --c-text-sec:#5B616E;
+  --c-text-tag:#9AA0AC;
+  --c-bg-start:#F5F6F8;
+  --c-bg-end:#ECEEF2;
+  --ease: cubic-bezier(.16,1,.3,1);
+  --dur-normal:0.85s;
+  --dur-fast:0.56s;
+  --dur-slow:0.95s;
+  --page0:#FFCF3A;
+  --page1:#A3D85B;
+  --page2:#FF8B4A;
+  --page3:#6CC3F2;
+  --page4:#B491FF;
+}
+@media (prefers-reduced-motion: reduce){
+  :root{
+    --dur-normal:0.01s;
+    --dur-fast:0.01s;
+    --dur-slow:0.01s;
+  }
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family: "Noto Sans SC", system-ui, sans-serif;
+  color:var(--c-text);
+  overflow:hidden;
+  height:100vh;
+  background:
+    radial-gradient(circle at 50% 40%, rgba(255,255,255,0.75) 0%, transparent 55%),
+    linear-gradient(180deg, var(--c-bg-start), var(--c-bg-end));
+}
+.font-syne{font-family:"Syne",sans-serif}
+.font-mono{font-family:"JetBrains Mono",monospace}
+/* 顶部栏 */
+.top-bar{
+  position:fixed;
+  top:0;left:0;right:0;
+  padding:18px 22px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  z-index:10;
+}
+.brand-left{
+  display:flex;
+  gap:8px;
+  align-items:center;
+}
+.brand-name{
+  font-size:20px;
+  font-weight:700;
+  letter-spacing:1px;
+}
+.brand-tag{
+  font-family:"JetBrains Mono",monospace;
+  font-size:12px;
+  color:var(--c-text-tag);
+  text-transform:uppercase;
+}
+@media (max-width:768px){
+  .top-bar{padding:14px 16px}
+  .brand-name{font-size:17px}
+}
+/* 3D舞台 */
+.stage{
+  position:fixed;
+  inset:0;
+  perspective:1900px;
+  display:grid;
+  place-items:center;
+}
+.wrapper{
+  transform-style:preserve-3d;
+  position:relative;
+  --rx:-12deg;--ry:-16deg;
+  transform:rotateX(var(--rx)) rotateY(var(--ry));
+  transition: transform var(--dur-slow) var(--ease);
+}
+/* 卡片（原来的paper）手机端尺寸 */
+.paper{
+  position:absolute;
+  width:clamp(220px, 62vw, 340px);
+  height:clamp(140px, 40vw, 220px);
+  left:50%;
+  top:50%;
+  border-radius:18px;
+  transform-origin:50% 50%;
+  transform-style:preserve-3d;
+  backface-visibility:hidden;
+  transition: transform var(--dur-slow) var(--ease), box-shadow 0.3s var(--ease);
+  box-shadow:0 6px 18px rgba(0,0,0,0.06);
+  cursor:pointer;
+}
+/* 点击上浮样式 */
+.paper.lift{
+  transform: var(--origin-transform) translateZ(60px) !important;
+  box-shadow:0 16px 40px rgba(0,0,0,0.12);
+}
+.paper-inner{
+  width:100%;height:100%;
+  padding:12px 14px;
+  display:grid;
+  grid-template-rows:auto 1fr auto;
+  gap:8px;
+}
+.paper-tag{
+  position:absolute;
+  top:-10px;right:10px;
+  padding:5px 10px;
+  border-radius:12px 12px 0 0;
+  color:#111;
+  font-weight:700;
+  font-size:13px;
+}
+.paper-head{
+  display:flex;justify-content:space-between;align-items:center;
+}
+.paper-en{font-family:"Syne",sans-serif;font-size:15px;font-weight:700}
+.paper-num{font-family:"JetBrains Mono",monospace;font-size:11px;color:var(--c-text-tag)}
+.paper-thumbs{
+  display:grid;grid-template-columns:1fr 1fr 1fr;gap:5px;
+}
+.paper-thumbs img{
+  width:100%;aspect-ratio:1.6/1;
+  object-fit:cover;border-radius:8px;
+  background:#f0f2f6;
+}
+/* 底部控制栏 */
+.bottom-bar{
+  position:fixed;
+  bottom:22px;left:0;right:0;
+  display:flex;flex-direction:column;gap:14px;
+  align-items:center;
+  z-index:10;
+  padding:0 16px;
+}
+.hint-text{
+  font-size:13px;color:var(--c-text-sec);
+  font-family:"JetBrains Mono",monospace;
+  text-align:center;
+}
+.btn-group{
+  display:flex;
+  gap:8px;
+}
+.btn-reset{
+  border:none;background:transparent;
+  font-family:"JetBrains Mono",monospace;
+  color:var(--c-text-sec);
+  cursor:pointer;
+  padding:4px 8px;
+  border-radius:8px;
+}
+.btn-reset:hover{background:rgba(0,0,0,0.04)}
+.chip-group{
+  display:flex;gap:8px;flex-wrap:wrap;justify-content:center;
+}
+.chip{
+  display:flex;align-items:center;gap:6px;
+  padding:7px 11px;
+  border-radius:999px;
+  background:#fff;
+  box-shadow:0 2px 8px rgba(0,0,0,0.06);
+  border:none;
+  cursor:pointer;
+  font-size:13px;
+  transition:transform 0.22s var(--ease);
+}
+.chip:hover{transform:translateY(-2px)}
+.chip-swatch{width:12px;height:12px;border-radius:4px}
+/* 阅读弹窗 */
+.read-overlay{
+  position:fixed;inset:0;
+  background:rgba(255,255,255,0.72);
+  backdrop-filter:blur(10px);
+  z-index:20;
+  opacity:0;pointer-events:none;
+  transition:opacity var(--dur-fast) var(--ease);
+  display:grid;place-items:center;
+  padding:24px;
+}
+.read-overlay.active{opacity:1;pointer-events:auto}
+.read-card{
+  width:100%;max-width:1120px;
+  max-height:92vh;
+  overflow-y:auto;
+  border-radius:6px 20px 20px 20px;
+  padding:28px 32px;
+  clip-path:inset(0 0 100% 0 round 14px);
+  transition:clip-path var(--dur-normal) var(--ease);
+  background:linear-gradient(180deg, var(--page-color, #ddd) 16%, #fff 52%);
+}
+.read-card.active{clip-path:inset(0 0 0 0 round 14px)}
+.read-header{
+  display:flex;justify-content:space-between;align-items:center;
+  margin-bottom:20px;
+}
+.read-tag{
+  padding:6px 10px;border-radius:10px;
+  font-family:"JetBrains Mono",monospace;font-size:13px;
+  color:#111;
+}
+.read-nav{display:flex;gap:8px}
+.read-nav button{
+  border:none;background:#fff;
+  padding:6px 10px;border-radius:8px;
+  cursor:pointer;font-size:13px;
+  box-shadow:0 2px 6px rgba(0,0,0,0.05);
+}
+.read-content{
+  display:grid;gap:18px;
+}
+.read-gallery{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;
+}
+.read-gallery-item img, .read-gallery-item video{
+  width:100%;border-radius:12px;cursor:pointer;
+  background:#f3f4f7;
+}
+@media (max-width:768px){
+  .read-card{padding:18px 20px}
+  .read-gallery{grid-template-columns:1fr}
+  .read-nav button{padding:6px 8px;font-size:12px}
+}
+/* 大图放大弹窗 */
+.lightbox{
+  position:fixed;inset:0;
+  background:rgba(255,255,255,0.94);
+  z-index:30;
+  display:grid;place-items:center;
+  padding:20px;
+  opacity:0;pointer-events:none;
+  transition:opacity 0.4s var(--ease);
+}
+.lightbox.active{opacity:1;pointer-events:auto}
+.lightbox img{
+  max-width:100%;max-height:100%;
+  object-fit:contain;
+  border-radius:10px;
+}
+/* 呼吸动画 */
+@keyframes breathe{
+  0%{transform:rotateX(var(--rx)) rotateY(var(--ry))}
+  50%{transform:rotateX(calc(var(--rx) + 1.2deg)) rotateY(calc(var(--ry) + 1.2deg))}
+  100%{transform:rotateX(var(--rx)) rotateY(calc(var(--ry)))}
+}
+.wrapper.breath{animation:breathe 11s ease-in-out infinite}
+</style>
+</head>
+<body>
+<div class="top-bar">
+  <div class="brand-left">
+    <div class="brand-name">叶鸿翔 Ye Hong Xiang</div>
+    <div class="brand-tag">Resume</div>
+  </div>
+</div>
+
+<div class="stage">
+  <div class="wrapper" id="wrapper">
+    <div class="paper" data-index="0" data-title="平面设计" data-origin-transform="translate(-50%,-50%) translateZ(0px) translateX(-60px) translateY(-98px)" style="--page-color:var(--page0);background:linear-gradient(180deg, rgba(255,207,58,0.24), #fff); transform:translate(-50%,-50%) translateZ(0px) translateX(-60px) translateY(-98px);">
+      <div class="paper-tag" style="background:var(--page0)">平面设计</div>
+      <div class="paper-inner">
+        <div class="paper-head">
+          <div class="paper-en">Graphic Design</div>
+          <div class="paper-num">01 · PROJECT 01</div>
+        </div>
+        <div></div>
+        <div class="paper-thumbs">
+          <img src="img/t/gd-01.jpg">
+          <img src="img/t/gd-02.jpg">
+          <img src="img/t/gd-03.jpg">
+        </div>
+      </div>
+    </div>
+    <div class="paper" data-index="1" data-title="插画作品" data-origin-transform="translate(-50%,-50%) translateZ(14px) translateX(-32px) translateY(-82px)" style="--page-color:var(--page1);background:linear-gradient(180deg, rgba(163,216,91,0.24), #fff); transform:translate(-50%,-50%) translateZ(14px) translateX(-32px) translateY(-82px);">
+      <div class="paper-tag" style="background:var(--page1)">插画作品</div>
+      <div class="paper-inner">
+        <div class="paper-head">
+          <div class="paper-en">Illustration</div>
+          <div class="paper-num">02 · PROJECT 02</div>
+        </div>
+        <div></div>
+        <div class="paper-thumbs">
+          <img src="img/t/ill-01.jpg">
+          <img src="img/t/ill-02.jpg">
+          <img src="img/t/ill-03.jpg">
+        </div>
+      </div>
+    </div>
+    <div class="paper" data-index="2" data-title="视频拍摄剪辑" data-origin-transform="translate(-50%,-50%) translateZ(28px) translateX(-4px) translateY(-66px)" style="--page-color:var(--page2);background:linear-gradient(180deg, rgba(255,139,74,0.24), #fff); transform:translate(-50%,-50%) translateZ(28px) translateX(-4px) translateY(-66px);">
+      <div class="paper-tag" style="background:var(--page2)">视频拍摄剪辑</div>
+      <div class="paper-inner">
+        <div class="paper-head">
+          <div class="paper-en">Video Edit</div>
+          <div class="paper-num">03 · PROJECT 03</div>
+        </div>
+        <div></div>
+        <div class="paper-thumbs">
+          <img src="img/t/vid-01.jpg">
+          <img src="img/t/vid-02.jpg">
+          <img src="img/t/vid-03.jpg">
+        </div>
+      </div>
+    </div>
+    <div class="paper" data-index="3" data-title="AI制作" data-origin-transform="translate(-50%,-50%) translateZ(42px) translateX(24px) translateY(-50px)" style="--page-color:var(--page3);background:linear-gradient(180deg, rgba(108,195,242,0.24), #fff); transform:translate(-50%,-50%) translateZ(42px) translateX(24px) translateY(-50px);">
+      <div class="paper-tag" style="background:var(--page3)">AI制作</div>
+      <div class="paper-inner">
+        <div class="paper-head">
+          <div class="paper-en">AI Creation</div>
+          <div class="paper-num">04 · PROJECT 04</div>
+        </div>
+        <div></div>
+        <div class="paper-thumbs">
+          <img src="img/t/ai-01.jpg">
+          <img src="img/t/ai-02.jpg">
+          <img src="img/t/ai-03.jpg">
+        </div>
+      </div>
+    </div>
+    <div class="paper" data-index="4" data-title="字体/片头设计" data-origin-transform="translate(-50%,-50%) translateZ(56px) translateX(52px) translateY(-34px)" style="--page-color:var(--page4);background:linear-gradient(180deg, rgba(180,145,255,0.24), #fff); transform:translate(-50%,-50%) translateZ(56px) translateX(52px) translateY(-34px);">
+      <div class="paper-tag" style="background:var(--page4)">字体/片头设计</div>
+      <div class="paper-inner">
+        <div class="paper-head">
+          <div class="paper-en">Type & Title</div>
+          <div class="paper-num">05 · PROJECT 05</div>
+        </div>
+        <div></div>
+        <div class="paper-thumbs">
+          <img src="img/t/type-01.jpg">
+          <img src="img/t/type-02.jpg">
+          <img src="img/t/type-03.jpg">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="bottom-bar">
+  <div class="hint-text" id="hint">手指拖动旋转 · 点击卡片打开作品</div>
+  <div class="btn-group">
+    <button class="btn-reset" id="resetBtn">↺ 回正</button>
+    <button class="btn-reset" id="restoreBtn">⟲ 复原</button>
+  </div>
+  <div class="chip-group">
+    <button class="chip" data-target="0">
+      <span class="chip-swatch" style="background:var(--page0)"></span>平面设计
+    </button>
+    <button class="chip" data-target="1">
+      <span class="chip-swatch" style="background:var(--page1)"></span>插画作品
+    </button>
+    <button class="chip" data-target="2">
+      <span class="chip-swatch" style="background:var(--page2)"></span>视频拍摄剪辑
+    </button>
+    <button class="chip" data-target="3">
+      <span class="chip-swatch" style="background:var(--page3)"></span>AI制作
+    </button>
+    <button class="chip" data-target="4">
+      <span class="chip-swatch" style="background:var(--page4)"></span>字体/片头设计
+    </button>
+  </div>
+</div>
+
+<div class="read-overlay" id="readOverlay">
+  <div class="read-card" id="readCard">
+    <div class="read-header">
+      <div class="read-tag" id="readTag">01 · 平面设计</div>
+      <div class="read-nav">
+        <button id="prevBtn">← 上一页</button>
+        <button id="nextBtn">下一页 →</button>
+        <button id="closeReadBtn">放回 Esc</button>
+      </div>
+    </div>
+    <div class="read-content" id="readContent"></div>
+  </div>
+</div>
+
+<div class="lightbox" id="lightbox">
+  <img id="lbImg" src="" alt="大图">
+</div>
+
+<script>
+const pagesData = [
+  {
+    title:"平面设计",
+    color:"var(--page0)",
+    intro:"【待填写：平面设计介绍文案】",
+    gallery:[
+      {type:"img",src:"1.jpg",caption:"【作品1标题】"},
+      {type:"img",src:"1.jpg",caption:"【作品2标题】"},
+      {type:"img",src:"1.jpg",caption:"【作品1标题】"},
+      {type:"img",src:"1.jpg",caption:"【作品2标题】"},
+      {type:"img",src:"1.jpg",caption:"【作品1标题】"},
+      {type:"img",src:"1.jpg",caption:"【作品2标题】"},
+      {type:"img",src:"1.jpg",caption:"【作品3标题】"}
+    ]
+  },
+  {
+    title:"插画作品",
+    color:"var(--page1)",
+    intro:"【待填写：插画作品介绍文案】",
+    gallery:[
+      {type:"img",src:"img/ill-01.jpg",caption:"【插画1标题】"},
+      {type:"img",src:"img/ill-02.jpg",caption:"【插画2标题】"},
+      {type:"img",src:"img/ill-03.jpg",caption:"【插画3标题】"}
+    ]
+  },
+  {
+    title:"视频拍摄剪辑",
+    color:"var(--page2)",
+    intro:"【待填写：视频拍摄剪辑介绍文案】",
+    gallery:[
+      {type:"video",src:"img/vid-01.mp4",caption:"【视频1标题】"},
+      {type:"img",src:"img/vid-02.jpg",caption:"【截图封面】"},
+      {type:"img",src:"img/vid-03.jpg",caption:"【截图封面】"}
+    ]
+  },
+  {
+    title:"AI制作",
+    color:"var(--page3)",
+    intro:"【待填写：AI创作介绍文案】",
+    gallery:[
+      {type:"img",src:"img/ai-01.jpg",caption:"【AI作品1】"},
+      {type:"img",src:"img/ai-02.jpg",caption:"【AI作品2】"},
+      {type:"img",src:"img/ai-03.jpg",caption:"【AI作品3】"}
+    ]
+  },
+  {
+    title:"字体/片头设计",
+    color:"var(--page4)",
+    intro:"【待填写：字体/片头设计介绍文案】",
+    gallery:[
+      {type:"img",src:"img/type-01.jpg",caption:"【字体片头1】"},
+      {type:"img",src:"img/type-02.jpg",caption:"【字体片头2】"},
+      {type:"img",src:"img/type-03.jpg",caption:"【字体片头3】"}
+    ]
+  }
+];
+const $ = s=>document.querySelector(s);
+const $$ = s=>document.querySelectorAll(s);
+const wrapper = $("#wrapper");
+const resetBtn = $("#resetBtn");
+const restoreBtn = $("#restoreBtn");
+const readOverlay = $("#readOverlay");
+const readCard = $("#readCard");
+const readContent = $("#readContent");
+const readTag = $("#readTag");
+const closeReadBtn = $("#closeReadBtn");
+const prevBtn = $("#prevBtn");
+const nextBtn = $("#nextBtn");
+const lightbox = $("#lightbox");
+const lbImg = $("#lbImg");
+const hint = $("#hint");
+const papers = $$(".paper");
+const chips = $$(".chip");
+
+let state = {
+  rx:-12, ry:-16,
+  vx:0, vy:0,
+  dragging:false, dragStartX:0, dragStartY:0,
+  activePaper:null,
+  readIndex:0,
+  moved:false
+};
+const INIT_RX = -12, INIT_RY = -16;
+const MAX_RX = 40, MIN_RX = -80;
+const paperCount = papers.length;
+// 入场动画
+wrapper.style.transform = `rotateX(${INIT_RX}deg) rotateY(${INIT_RY}deg) translateY(70px)`;
+requestAnimationFrame(()=>{
+  wrapper.style.transition = "transform 1.2s var(--ease)";
+  wrapper.style.transform = `rotateX(${INIT_RX}deg) rotateY(${INIT_RY}deg) translateY(0)`;
+  setTimeout(()=>{
+    wrapper.classList.add("breath");
+    wrapper.style.transition = "transform var(--dur-slow) var(--ease)";
+  },1200);
+});
+papers.forEach((p,i)=>{
+  p.style.opacity = "0";
+  p.style.transform += " scale(0.86)";
+  p.style.setProperty('--origin-transform', p.dataset.originTransform);
+  setTimeout(()=>{
+    p.style.transition = "transform 0.8s var(--ease), opacity 0.8s var(--ease)";
+    p.style.opacity = "1";
+    p.style.transform = p.style.transform.replace(" scale(0.86)","");
+  }, 1200 + i*120);
+});
+function updateHint(){
+  hint.textContent = "手指拖动旋转 · 点击卡片打开作品";
+}
+// 拖动旋转【灵敏度调高】
+wrapper.addEventListener("pointerdown",e=>{
+  state.dragging = true;
+  state.moved = false;
+  state.dragStartX = e.clientX;
+  state.dragStartY = e.clientY;
+  wrapper.classList.remove("breath");
+});
+document.addEventListener("pointermove",e=>{
+  if(!state.dragging) return;
+  const dx = e.clientX - state.dragStartX;
+  const dy = e.clientY - state.dragStartY;
+  if(Math.abs(dx)>6 || Math.abs(dy)>6) state.moved = true;
+  // ========== 这里改大灵敏度 ==========
+  state.ry += dx * 0.55;
+  state.rx -= dy * 0.48;
+  state.rx = Math.max(MIN_RX, Math.min(MAX_RX, state.rx));
+  state.vy = dx * 0.022;
+  state.vx = -dy * 0.022;
+  applyRotation();
+  // hover抬起
+  papers.forEach((p)=>{
+    const r = p.getBoundingClientRect();
+    const inHover = e.clientX >= r.left && e.clientX <= r.right && e.clientY >= r.top && e.clientY <= r.bottom;
+    if(inHover && !p.classList.contains('lift')){
+      p.style.transform = p.dataset.originTransform + " translateZ(18px)";
+    }else if(!p.classList.contains('lift')){
+      p.style.transform = p.dataset.originTransform;
+    }
+  })
+});
+document.addEventListener("pointerup",()=>{
+  if(!state.dragging) return;
+  state.dragging = false;
+  const inertia = ()=>{
+    state.vx *= 0.94;
+    state.vy *= 0.94;
+    state.rx += state.vx;
+    state.ry += state.vy;
+    state.rx = Math.max(MIN_RX, Math.min(MAX_RX, state.rx));
+    applyRotation();
+    if(Math.abs(state.vx)>0.05 || Math.abs(state.vy)>0.05) requestAnimationFrame(inertia);
+    else wrapper.classList.add("breath");
+  }
+  requestAnimationFrame(inertia);
+});
+function applyRotation(){
+  wrapper.style.setProperty("--rx", state.rx + "deg");
+  wrapper.style.setProperty("--ry", state.ry + "deg");
+  wrapper.style.transform = `rotateX(${state.rx}deg) rotateY(${state.ry}deg)`;
+}
+// 回正：只复位视角
+function resetView(){
+  wrapper.classList.remove("breath");
+  const easeBack = ()=>{
+    const drx = INIT_RX - state.rx;
+    const dry = INIT_RY - state.ry;
+    state.rx += drx * 0.08;
+    state.ry += dry * 0.08;
+    applyRotation();
+    if(Math.abs(drx)>0.2 || Math.abs(dry)>0.2) requestAnimationFrame(easeBack);
+    else wrapper.classList.add("breath");
+  }
+  requestAnimationFrame(easeBack);
+}
+resetBtn.onclick = resetView;
+
+// 一键复原，全部同步重置
+function restoreAll(){
+  lightbox.classList.remove("active");
+  readCard.classList.remove("active");
+  readOverlay.classList.remove("active");
+
+  state.vx = 0;
+  state.vy = 0;
+  state.dragging = false;
+  state.activePaper = null;
+  state.readIndex = 0;
+  state.moved = false;
+
+  papers.forEach(p=>{
+    p.classList.remove('lift');
+    p.style.transform = p.dataset.originTransform;
+  })
+
+  wrapper.classList.remove("breath");
+  const easeBack = ()=>{
+    const drx = INIT_RX - state.rx;
+    const dry = INIT_RY - state.ry;
+    state.rx += drx * 0.08;
+    state.ry += dry * 0.08;
+    applyRotation();
+    if(Math.abs(drx)>0.2 || Math.abs(dry)>0.2){
+      requestAnimationFrame(easeBack);
+    }else{
+      wrapper.classList.add("breath");
+    }
+  }
+  requestAnimationFrame(easeBack);
+
+  updateHint();
+}
+restoreBtn.onclick = restoreAll;
+
+// 点击分页 + 上浮动效
+papers.forEach((p,idx)=>{
+  p.onclick = (e)=>{
+    if(state.moved) return;
+    e.stopPropagation();
+    state.activePaper = idx;
+    // 上浮
+    p.classList.add('lift');
+    setTimeout(()=>{
+      openRead(idx);
+    }, 180);
+  }
+})
+chips.forEach(chip=>{
+  chip.onclick = ()=>{
+    const t = Number(chip.dataset.target);
+    state.activePaper = t;
+    openRead(t);
+  }
+})
+// 阅读页
+function openRead(idx){
+  state.readIndex = idx;
+  const d = pagesData[idx];
+  readCard.style.setProperty("--page-color", d.color);
+  readTag.textContent = `${String(idx+1).padStart(2,"0")} · ${d.title}`;
+  let html = `<p>${d.intro}</p><div class="read-gallery">`;
+  d.gallery.forEach(item=>{
+    if(item.type==="img"){
+      html += `<div class="read-gallery-item"><img src="${item.src}" alt="${item.caption}" class="lb-trigger"><p style="font-size:12px;color:var(--c-text-tag)">${item.caption}</p></div>`;
+    }else if(item.type==="video"){
+      html += `<div class="read-gallery-item"><video controls preload="metadata" src="${item.src}"></video><p style="font-size:12px;color:var(--c-text-tag)">${item.caption}</p></div>`;
+    }
+  })
+  html += "</div>";
+  readContent.innerHTML = html;
+  readOverlay.classList.add("active");
+  setTimeout(()=>readCard.classList.add("active"),20);
+  $$(".lb-trigger").forEach(img=>{
+    img.onclick = ()=>{
+      lbImg.src = img.src;
+      lightbox.classList.add("active");
+    }
+  })
+}
+function closeRead(){
+  readCard.classList.remove("active");
+  setTimeout(()=>{
+    readOverlay.classList.remove("active");
+    // 读完关闭，清除上浮
+    papers.forEach(p=>p.classList.remove('lift'));
+  },400);
+}
+closeReadBtn.onclick = closeRead;
+prevBtn.onclick = ()=>{
+  state.readIndex = (state.readIndex -1 + paperCount) % paperCount;
+  openRead(state.readIndex);
+}
+nextBtn.onclick = ()=>{
+  state.readIndex = (state.readIndex +1) % paperCount;
+  openRead(state.readIndex);
+}
+lightbox.onclick = ()=>lightbox.classList.remove("active");
+// 键盘
+document.onkeydown = e=>{
+  if(e.key === "Escape"){
+    if(lightbox.classList.contains("active")) lightbox.classList.remove("active");
+    else if(readOverlay.classList.contains("active")) closeRead();
+  }
+  if(e.key === "ArrowLeft" && readOverlay.classList.contains("active")) prevBtn.click();
+  if(e.key === "ArrowRight" && readOverlay.classList.contains("active")) nextBtn.click();
+  if(e.key.toLowerCase() === "r"){
+    restoreAll();
+  }
+}
+// 双击空白回正
+wrapper.addEventListener("dblclick",resetView);
+updateHint();
+</script>
+</body>
+</html>
